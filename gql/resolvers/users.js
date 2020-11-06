@@ -5,6 +5,7 @@ const User = require('../../models/users');
 
 const { AUTH_JWT_SECRET } = process.env;
 
+
 module.exports = {
   Mutation: {
     register: async (_, { input: {username, password, confirmPassword, email} }) => {
@@ -36,5 +37,23 @@ module.exports = {
         token
       }
     },
+
+    login: async (_, { input: { username, password } }) => {
+      const user = await User.findOne({ username });
+      if(!user) { throw new UserInputError('User doesn´t exist') }
+
+      const correctPassword = await bcrypt.compare(password, user.password);
+      if(!correctPassword) { throw new UserInputError('Wrong credentials') };
+
+      const token = jwt.sign({
+        id: user.id, email: user.email, username: user.username,
+      }, AUTH_JWT_SECRET, { expiresIn: "1h" });
+
+      return {
+        ...user._doc,
+        id: user._id,
+        token
+      }
+    }
   },
 }

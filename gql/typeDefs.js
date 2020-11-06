@@ -15,18 +15,31 @@ module.exports = gql`
     confirmPassword: String!
     email: String!
   }
+  input loginInput {
+    username: String!
+    password: String!
+  }
+  type chat {
+    id: ID!
+    users: [user]!
+  }
   type message {
     id: ID!
     body: String!
     createdAt: String!
     username: String!
+    conversation: chat!
   }
   type Query {
     getMessage: String!
-    getMessages: [message]!
+    getMessages(chatId: ID!): [message]!
+    getChats: [chat]!
   }
   type Mutation {
     register(input: registerInput!): user!
-    createMessage(body: String!): message!
+    login(input: loginInput!): user!
+    createChat(messageTo: ID!): chat!
+    createMessage(body: String!, chatId: ID!): message!
+    deleteMessage(messageId: ID!): String!
   }
 `;

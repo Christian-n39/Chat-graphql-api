@@ -4,9 +4,9 @@ const messagesSchema = new Schema({
   body: String,
   createdAt: String,
   username: String,
-  user: {
+  chat: {
     type: Schema.Types.ObjectId,
-    ref: 'users'
+    ref: 'chats'
   }
 });
 
