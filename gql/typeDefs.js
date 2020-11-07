@@ -42,4 +42,7 @@ module.exports = gql`
     createMessage(body: String!, chatId: ID!): message!
     deleteMessage(messageId: ID!): String!
   }
+  type Subscription {
+    newMessage(chatId: ID!): message!
+  }
 `;

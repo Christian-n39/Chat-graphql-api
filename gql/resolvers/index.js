@@ -11,5 +11,8 @@ module.exports = {
     ...userResolver.Mutation,
     ...messageResolver.Mutation,
     ...chatResolver.Mutation
+  },
+  Subscription: {
+    ...messageResolver.Subscription
   }
 }

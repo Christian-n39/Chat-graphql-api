@@ -1,14 +1,15 @@
 require('dotenv').config();
-const { ApolloServer } = require('apollo-server');
+const { ApolloServer, PubSub } = require('apollo-server');
 const mongoose = require('mongoose');
 
 // Apollo Server
 const typeDefs = require('./gql/typeDefs');
 const resolvers = require('./gql/resolvers');
+const pubsub = new PubSub()
 const server = new ApolloServer({
   typeDefs,
   resolvers,
-  context: ({ req }) => ({ req })
+  context: ({ req }) => ({ req, pubsub })
 });
 // Mongo DB
 const {
